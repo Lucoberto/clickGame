@@ -1,17 +1,11 @@
 from logging import root
-from re import X
 from tkinter import *
 import tkinter as tk
 from tkinter import Button, ttk
-from turtle import exitonclick, title
 
 point = 0
 
 # The save file is game.sv onli save the score
-
-# Menu to see the score
-def bestScore():
-    pass
 
 def clean():
     global point
@@ -63,14 +57,6 @@ loadMenu.add_cascade(label="Settings", menu=topMenu)
 topMenu.add_command(label="Save", command=saveGame)
 topMenu.add_command(label="Load", command=load)
 topMenu.add_command(label="Clean", command=clean)
-
-#-----------------Cheat menu----------------------#
-
-cheatsMenu = Menu(loadMenu, tearoff=0)
-loadMenu.add_cascade(label="Cheats", menu=cheatsMenu)
-cheatsMenu.add_command(label="x2")
-cheatsMenu.add_command(label="Coins")
-cheatsMenu.add_command(label="Score")
 
 #-----------------Exit button----------------------#
 
