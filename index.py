@@ -34,7 +34,7 @@ class ClickGameApp:
         self.label_shop_back = ttk.Button(text="back", command=self.show_interface)
         self.label_shop_back.place_forget()
 
-        self.buy = ttk.Button(text="Buy 20", command=lambda: self.update_money(20) ) # ------------ Hacer una funcion
+        self.buy = ttk.Button(text="Buy 20", command=lambda: self.update_money(20) )
         self.buy.place_forget()
 
         self.label_info_no_money = ttk.Label(text="You don't have money!")
@@ -52,7 +52,7 @@ class ClickGameApp:
         self.top_menu.add_cascade(label="Clean", menu=self.clear_sub_menu)
 
         self.clear_sub_menu.add_command(label="Clean points", command=self.clean)
-        self.clear_sub_menu.add_command(label="Clean all history", command=self.clean)
+        self.clear_sub_menu.add_command(label="Clean all history", command=self.clean_save)
 
         self.load_menu.add_command(label="Shop", command=self.hide_interface)
         self.root.config(menu=self.load_menu)
@@ -87,7 +87,26 @@ class ClickGameApp:
     def clean(self):
         self.point = 0
         self.show_points()
+    
+    def clean_save(self):
+        with open(self.file_path, 'r') as read_save:
+            read_save_delete = json.load(read_save)
+        
+        read_save_delete["point"] = 0
+        read_save_delete["record"] = 0
+        read_save_delete["platica"] = 0
+    
+        with open(self.file_path, 'w') as delete_all:
+            json.dump(read_save_delete, delete_all, indent=4)
+        
+        self.load_record()
+        self.load_points()
+        self.load_platica()
+        self.show_record()
+        self.show_points()
+        self.show_platica()
 
+    """ Motor de guardado """
     def auto_save(self):
         # Lee el json para poder guardar mas tarde los datos
         with open(self.file_path, 'r') as read_json_file:
