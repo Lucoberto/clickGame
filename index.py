@@ -27,11 +27,17 @@ class ClickGameApp:
         self.confirm = ttk.Button(text="Click", command=self.points_up)
         self.confirm.place(x=60, y=70)
 
+        """ Menu de la tienda """
         self.label_shop_multiplier = ttk.Label(text="x2 in coins")
         self.label_shop_multiplier.place_forget()
 
-        self.buy = ttk.Button(text="Buy 20", command=self.shop)
+        self.label_shop_back = ttk.Button(text="back", command=self.show_interface)
+        self.label_shop_back.place_forget()
+
+        self.buy = ttk.Button(text="Buy 20", command=lambda: self.update_money(20) ) # ------------ Hacer una funcion
         self.buy.place_forget()
+
+        self.label_info_no_money = ttk.Label(text="You don't have money!")
 
         # Crear menú superior
         self.load_menu = Menu(self.root)
@@ -53,6 +59,7 @@ class ClickGameApp:
 
         self.load_menu.add_command(label="Exit", command=self.root.quit)
         self.root.config(menu=self.load_menu)
+        
 
         # Cargar datos iniciales
         self.load_record()
@@ -83,7 +90,7 @@ class ClickGameApp:
 
     def auto_save(self):
         # Lee el json para poder guardar mas tarde los datos
-        with open('save.json', 'r') as read_json_file:
+        with open(self.file_path, 'r') as read_json_file:
             read_json = json.load(read_json_file)
         
         # Actualizar record
@@ -158,11 +165,28 @@ class ClickGameApp:
         # llamada a la funcion
         self.shop()
     
+    def show_interface(self):
+        self.label_info.place(x=20, y=10)
+        self.label_info_record.place(x=20, y=30)
+        self.confirm.place(x=60, y=70)
+
+        self.buy.place_forget()
+        self.label_shop_back.place_forget()
+        self.label_shop_multiplier.place_forget()
+        self.label_info_no_money.place_forget()
+
     def shop(self):
         self.label_shop_multiplier.place(x=20, y=10)
         self.buy.place(x=90, y=10)
-
-
+        self.label_shop_back.place(x=90, y=30)
+    
+    def update_money(self, discount):
+        if self.platica < 20:
+            self.label_info_no_money.place(x=20 , y=70)
+        else:
+            self.platica = self.platica - discount
+            self.auto_save()
+            self.show_platica()
 
 # Crear ventana principal
 if __name__ == "__main__":
