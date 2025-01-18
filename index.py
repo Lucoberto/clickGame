@@ -1,6 +1,5 @@
-import tkinter as tk
-from tkinter import Menu, ttk
-import json
+from dependencies import *
+from engine import *
 
 
 class ClickGameApp:
